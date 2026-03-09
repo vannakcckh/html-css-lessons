@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Mastery — Interactive Lessons</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090d;
+  --surface: #0e1118;
+  --border: #181e2a;
+  --border2: #222a3a;
+  --text: #dde6f0;
+  --muted: #445566;
+  --anim-color:  #f0e040;
+  --pos-color:   #c94a1f;
+  --grid-color:  #00ff88;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+
+
+/* ── HERO ── */
+.hero {
+  padding: 100px 40px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,255,255,.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Animated grid lines in background */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem;
+  letter-spacing: .2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.03em;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.hero h1 .line2 {
+  display: block;
+  background: linear-gradient(90deg, var(--anim-color), var(--pos-color), var(--grid-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-weight: 300;
+  max-width: 520px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+.hero-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: .72rem;
+  padding: 5px 14px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.hero-tag.y { border-color: rgba(240,224,64,.3); color: var(--anim-color); background: rgba(240,224,64,.05); }
+.hero-tag.r { border-color: rgba(201,74,31,.3);  color: var(--pos-color);  background: rgba(201,74,31,.05); }
+.hero-tag.g { border-color: rgba(0,255,136,.3);  color: var(--grid-color); background: rgba(0,255,136,.05); }
+
+/* ── LESSON CARDS ── */
+.cards-wrap {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 28px 100px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.lesson-card {
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  transition: transform .3s ease, box-shadow .3s ease;
+  position: relative;
+}
+.lesson-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Card top accent bar */
+.card-accent {
+  height: 4px;
+  width: 100%;
+}
+.lesson-card.anim  .card-accent { background: var(--anim-color); box-shadow: 0 0 20px rgba(240,224,64,.4); }
+.lesson-card.pos   .card-accent { background: var(--pos-color);  box-shadow: 0 0 20px rgba(201,74,31,.4); }
+.lesson-card.grid  .card-accent { background: var(--grid-color); box-shadow: 0 0 20px rgba(0,255,136,.4); }
+.lesson-card.anim:hover { box-shadow: 0 20px 60px rgba(240,224,64,.1); }
+.lesson-card.pos:hover  { box-shadow: 0 20px 60px rgba(201,74,31,.1); }
+.lesson-card.grid:hover { box-shadow: 0 20px 60px rgba(0,255,136,.1); }
+
+.card-body {
+  padding: 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-num {
+  font-family: 'Fira Code', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+  letter-spacing: .1em;
+}
+
+.card-icon {
+  font-size: 2.4rem;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.lesson-card.anim  .card-title { color: var(--anim-color); }
+.lesson-card.pos   .card-title { color: var(--pos-color); }
+.lesson-card.grid  .card-title { color: var(--grid-color); }
+
+.card-desc {
+  font-size: .88rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.card-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.card-topic {
+  font-family: 'Fira Code', monospace;
+  font-size: .62rem;
+  padding: 3px 10px;
+  border-radius: 3px;
+  background: var(--border);
+  color: var(--muted);
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  font-size: .82rem;
+  font-weight: 600;
+  transition: background .2s;
+}
+.lesson-card.anim  .card-cta { color: var(--anim-color); }
+.lesson-card.pos   .card-cta { color: var(--pos-color); }
+.lesson-card.grid  .card-cta { color: var(--grid-color); }
+.lesson-card:hover .card-cta { background: rgba(255,255,255,.02); }
+
+.card-cta .sections-count {
+  font-family: 'Fira Code', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ── FEATURE STRIP ── */
+.feature-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 40px;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .85rem;
+  color: var(--muted);
+}
+.feature-icon { font-size: 1.1rem; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 32px 40px;
+  text-align: center;
+  font-family: 'Fira Code', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .06em;
+}
+
+@media(max-width:780px) {
+  .cards-wrap { grid-template-columns: 1fr; }
+  .hero { padding: 60px 24px 48px; }
+  .feature-strip { gap: 24px; padding: 24px; }
+}
+@media(max-width:500px) {
+  .nav-links .nav-link span { display: none; }
+  .nav-badge { display: none; }
+}
+
+  /* ══ SHARED SITE NAV (scalable dropdown) ══ */
+  .site-nav {
+    position: sticky; top: 0; z-index: 9999;
+    background: rgba(7,9,13,.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid #1e2738;
+    padding: 0 24px;
+    display: flex; align-items: center;
+    height: 52px; gap: 0;
+    font-family: 'Outfit', 'Segoe UI', sans-serif;
+  }
+  .site-nav * { box-sizing: border-box; }
+
+  /* Logo */
+  .snav-logo {
+    font-family: 'Courier New', monospace;
+    font-size: .78rem; font-weight: 600;
+    color: #dde6f0; text-decoration: none;
+    margin-right: 8px; padding: 0 12px;
+    display: flex; align-items: center; gap: 5px;
+    height: 52px; flex-shrink: 0;
+    border-bottom: 2px solid transparent;
+    transition: color .2s;
+  }
+  .snav-logo:hover { color: #fff; }
+  .snav-logo .lb { color: #445566; }
+
+  /* Home pill */
+  .snav-home {
+    font-size: .78rem; font-weight: 500;
+    color: #556677; text-decoration: none;
+    padding: 0 14px; height: 52px;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+    flex-shrink: 0;
+  }
+  .snav-home:hover     { color: #dde6f0; border-color: #dde6f0; }
+  .snav-home.snav-cur  { color: #fff;    border-color: #fff; }
+
+  /* Divider */
+  .snav-div {
+    width: 1px; height: 24px;
+    background: #1e2738; margin: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* Dropdown wrapper */
+  .snav-dropdown {
+    position: relative; height: 52px;
+    display: flex; align-items: center;
+  }
+
+  /* Dropdown trigger button */
+  .snav-trigger {
+    background: none; border: none; cursor: pointer;
+    font-size: .78rem; font-weight: 500;
+    font-family: inherit;
+    color: #556677;
+    padding: 0 14px; height: 52px;
+    display: flex; align-items: center; gap: 7px;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .snav-trigger:hover { color: #dde6f0; border-color: #dde6f0; }
+  .snav-trigger.snav-cur { color: #00ccff; border-color: #00ccff; }
+
+  /* Trigger chevron */
+  .snav-chevron {
+    width: 12px; height: 12px; flex-shrink: 0;
+    transition: transform .25s ease;
+    opacity: .5;
+  }
+  .snav-dropdown.open .snav-chevron { transform: rotate(180deg); }
+
+  /* Trigger lesson count badge */
+  .snav-count {
+    font-size: .6rem;
+    background: #1e2738; color: #556677;
+    padding: 2px 7px; border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-weight: 400; transition: background .2s;
+  }
+  .snav-trigger:hover .snav-count { background: #252f3f; color: #778899; }
+
+  /* Dropdown panel */
+  .snav-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px); left: 0;
+    min-width: 280px; max-width: 340px;
+    background: #0d1420;
+    border: 1px solid #1e2738;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 16px 48px rgba(0,0,0,.6);
+    overflow: hidden;
+    z-index: 10000;
+  }
+  .snav-dropdown.open .snav-panel { display: block; }
+
+  /* Panel search */
+  .snav-search-wrap {
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid #1e2738;
+  }
+  .snav-search {
+    width: 100%; background: #070b12;
+    border: 1px solid #1e2738; border-radius: 5px;
+    padding: 7px 10px 7px 30px;
+    font-size: .75rem; color: #dde6f0;
+    font-family: inherit; outline: none;
+  }
+  .snav-search::placeholder { color: #334455; }
+  .snav-search:focus { border-color: #2a3f5a; }
+  .snav-search-icon {
+    position: absolute; top: 50%; left: 22px;
+    transform: translateY(-50%);
+    color: #334455; pointer-events: none;
+    font-size: .7rem;
+  }
+  .snav-search-row { position: relative; }
+
+  /* Panel category groups */
+  .snav-group { padding: 6px 0; }
+  .snav-group-label {
+    font-size: .58rem; letter-spacing: .14em;
+    text-transform: uppercase; color: #334455;
+    padding: 6px 14px 4px;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Panel items */
+  .snav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px; text-decoration: none;
+    font-size: .8rem; color: #6a8098;
+    transition: background .15s, color .15s;
+    cursor: pointer;
+  }
+  .snav-item:hover { background: #131c28; color: #dde6f0; }
+  .snav-item.snav-cur { background: #0f1a26; color: #dde6f0; }
+  .snav-item .si-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .snav-item .si-num {
+    font-family: 'Courier New', monospace;
+    font-size: .6rem; color: #334455;
+    min-width: 22px;
+  }
+  .snav-item .si-title { flex: 1; }
+  .snav-item .si-badge {
+    font-family: 'Courier New', monospace;
+    font-size: .58rem; color: #334455;
+    background: #1a2335; padding: 1px 6px;
+    border-radius: 3px; flex-shrink: 0;
+  }
+  .snav-item.snav-cur .si-badge { color: #556677; background: #1e2d42; }
+
+  /* Coming soon items */
+  .snav-item.snav-soon { opacity: .45; cursor: default; pointer-events: none; }
+  .snav-item.snav-soon .si-title::after {
+    content: ' · soon';
+    font-size: .65em; color: #334455;
+    margin-left: 4px;
+  }
+
+  /* No results */
+  .snav-empty {
+    padding: 18px 14px;
+    font-size: .78rem; color: #334455;
+    text-align: center; display: none;
+  }
+
+  /* Spacer */
+  .snav-spacer { flex: 1; }
+
+  /* Right side badge */
+  .snav-badge-r {
+    font-family: 'Courier New', monospace;
+    font-size: .6rem; color: #334455;
+    border: 1px solid #1e2738;
+    padding: 3px 10px; border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 500px) {
+    .snav-logo .snav-logo-text { display: none; }
+    .snav-badge-r { display: none; }
+    .snav-trigger .snav-count { display: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ── SHARED NAV ── -->
+<nav class="site-nav">
+  <a href="index.html" class="snav-logo">
+    <span class="lb">{</span>
+    <span class="snav-logo-text">CSS Mastery</span>
+    <span class="lb">}</span>
+  </a>
+  <a href="index.html" class="snav-home snav-cur">
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2L8 1z"/></svg>
+    Home
+  </a>
+  <div class="snav-div"></div>
+  <div class="snav-dropdown" id="snavDrop">
+    <button class="snav-trigger " onclick="toggleSnav(event)" aria-expanded="false" aria-haspopup="true">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3h14v1.5H1zm0 4h14v1.5H1zm0 4h14v1.5H1z"/></svg>
+      All Lessons
+      <span class="snav-count">3</span>
+      <svg class="snav-chevron" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg>
+    </button>
+    <div class="snav-panel" id="snavPanel" role="menu">
+      <div class="snav-search-wrap">
+        <div class="snav-search-row">
+          <span class="snav-search-icon">&#9906;</span>
+          <input class="snav-search" type="text" placeholder="Search lessons..." oninput="filterSnav(this.value)" autocomplete="off" />
+        </div>
+      </div>
+      <div class="snav-group" data-group="CSS Fundamentals">
+  <div class="snav-group-label">CSS Fundamentals</div>
+  <a href="css-animations-lesson.html" class="snav-item " data-title="Transitions &amp; Animations">
+    <span class="si-dot" style="background:#f0e040"></span>
+    <span class="si-num">01</span>
+    <span class="si-title">Transitions &amp; Animations</span>
+    <span class="si-badge">9 sections</span>
+  </a>
+  <a href="css-position-lesson.html" class="snav-item " data-title="CSS Position">
+    <span class="si-dot" style="background:#c94a1f"></span>
+    <span class="si-num">02</span>
+    <span class="si-title">CSS Position</span>
+    <span class="si-badge">8 sections</span>
+  </a>
+  <a href="css-grid-lesson.html" class="snav-item " data-title="CSS Grid">
+    <span class="si-dot" style="background:#00ff88"></span>
+    <span class="si-num">03</span>
+    <span class="si-title">CSS Grid</span>
+    <span class="si-badge">11 sections</span>
+  </a>
+</div>
+
+      <div class="snav-empty" id="snavEmpty">No lessons found</div>
+    </div>
+  </div>
+  <div class="snav-spacer"></div>
+  <span class="snav-badge-r">3 lessons</span>
+</nav>
+<script>
+(function() {
+  function toggleSnav(e) {
+    e.stopPropagation();
+    var d = document.getElementById('snavDrop');
+    var open = d.classList.toggle('open');
+    d.querySelector('.snav-trigger').setAttribute('aria-expanded', open);
+    if (open) { setTimeout(function(){ d.querySelector('.snav-search').focus(); }, 50); }
+  }
+  function filterSnav(val) {
+    val = val.toLowerCase();
+    var items = document.querySelectorAll('.snav-item');
+    var any = false;
+    items.forEach(function(item) {
+      var title = (item.getAttribute('data-title') || item.textContent).toLowerCase();
+      var show = !val || title.indexOf(val) > -1;
+      item.style.display = show ? '' : 'none';
+      if (show) any = true;
+    });
+    var groups = document.querySelectorAll('.snav-group');
+    groups.forEach(function(g) {
+      var visible = Array.from(g.querySelectorAll('.snav-item')).some(function(i){ return i.style.display !== 'none'; });
+      g.style.display = visible ? '' : 'none';
+    });
+    document.getElementById('snavEmpty').style.display = any ? 'none' : 'block';
+  }
+  document.addEventListener('click', function(e) {
+    var d = document.getElementById('snavDrop');
+    if (d && !d.contains(e.target)) {
+      d.classList.remove('open');
+      d.querySelector('.snav-trigger').setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var d = document.getElementById('snavDrop');
+      if (d) { d.classList.remove('open'); d.querySelector('.snav-trigger').setAttribute('aria-expanded','false'); }
+    }
+  });
+  window.toggleSnav = toggleSnav;
+  window.filterSnav = filterSnav;
+})();
+</script>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-eyebrow">Interactive Reference · Frontend Fundamentals</div>
+  <h1>
+    Master
+    <span class="line2">Modern CSS</span>
+  </h1>
+  <p class="hero-desc">Three in-depth interactive lessons covering the essential CSS properties every frontend developer needs to know.</p>
+  <div class="hero-tags">
+    <span class="hero-tag y">transitions</span>
+    <span class="hero-tag y">animations</span>
+    <span class="hero-tag y">@keyframes</span>
+    <span class="hero-tag r">position</span>
+    <span class="hero-tag r">z-index</span>
+    <span class="hero-tag r">stacking</span>
+    <span class="hero-tag g">grid</span>
+    <span class="hero-tag g">fr units</span>
+    <span class="hero-tag g">template areas</span>
+  </div>
+</section>
+
+<!-- ── CARDS ── -->
+<div class="cards-wrap">
+
+  <a href="css-animations-lesson.html" class="lesson-card anim">
+    <div class="card-accent"></div>
+    <div class="card-body">
+      <div class="card-num">LESSON 01</div>
+      <div class="card-icon">✨</div>
+      <div class="card-title">Transitions &amp; Animations</div>
+      <p class="card-desc">Learn how to bring your interfaces to life with smooth transitions, @keyframes animations, easing functions, and GPU-friendly transforms.</p>
+      <div class="card-topics">
+        <span class="card-topic">transition</span>
+        <span class="card-topic">animation</span>
+        <span class="card-topic">@keyframes</span>
+        <span class="card-topic">easing</span>
+        <span class="card-topic">transform</span>
+        <span class="card-topic">fill-mode</span>
+        <span class="card-topic">loaders</span>
+        <span class="card-topic">performance</span>
+      </div>
+    </div>
+    <div class="card-cta">
+      <span>Open Lesson →</span>
+      <span class="sections-count">9 sections</span>
+    </div>
+  </a>
+
+  <a href="css-position-lesson.html" class="lesson-card pos">
+    <div class="card-accent"></div>
+    <div class="card-body">
+      <div class="card-num">LESSON 02</div>
+      <div class="card-icon">📌</div>
+      <div class="card-title">CSS Position</div>
+      <p class="card-desc">Understand exactly how static, relative, absolute, fixed, and sticky work — with visual demos showing document flow, containing blocks, and stacking contexts.</p>
+      <div class="card-topics">
+        <span class="card-topic">static</span>
+        <span class="card-topic">relative</span>
+        <span class="card-topic">absolute</span>
+        <span class="card-topic">fixed</span>
+        <span class="card-topic">sticky</span>
+        <span class="card-topic">z-index</span>
+        <span class="card-topic">stacking</span>
+        <span class="card-topic">inset</span>
+      </div>
+    </div>
+    <div class="card-cta">
+      <span>Open Lesson →</span>
+      <span class="sections-count">8 sections</span>
+    </div>
+  </a>
+
+  <a href="css-grid-lesson.html" class="lesson-card grid">
+    <div class="card-accent"></div>
+    <div class="card-body">
+      <div class="card-num">LESSON 03</div>
+      <div class="card-icon">⬛</div>
+      <div class="card-title">CSS Grid</div>
+      <p class="card-desc">Master two-dimensional layout with CSS Grid. Cover fr units, template areas, auto-fit/auto-fill, alignment, dense packing, and real-world layout patterns.</p>
+      <div class="card-topics">
+        <span class="card-topic">fr units</span>
+        <span class="card-topic">template-areas</span>
+        <span class="card-topic">minmax()</span>
+        <span class="card-topic">auto-fit</span>
+        <span class="card-topic">span</span>
+        <span class="card-topic">alignment</span>
+        <span class="card-topic">dense</span>
+        <span class="card-topic">holy grail</span>
+      </div>
+    </div>
+    <div class="card-cta">
+      <span>Open Lesson →</span>
+      <span class="sections-count">11 sections</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- ── FEATURE STRIP ── -->
+<div class="feature-strip">
+  <div class="feature"><span class="feature-icon">🎯</span> Live interactive demos</div>
+  <div class="feature"><span class="feature-icon">💡</span> Syntax-highlighted code</div>
+  <div class="feature"><span class="feature-icon">📋</span> Quick-reference cheatsheets</div>
+  <div class="feature"><span class="feature-icon">⚡</span> Pure HTML &amp; CSS — no frameworks</div>
+</div>
+
+<footer>
+  CSS Mastery · 3 Interactive Lessons · Built with pure HTML &amp; CSS
+</footer>
+
+</body>
+</html>
